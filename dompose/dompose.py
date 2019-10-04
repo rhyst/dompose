@@ -2,7 +2,6 @@
 import sys
 import os
 import re
-import yaml
 import pprint
 import operator
 from functools import reduce
@@ -10,6 +9,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 import argparse
 import shutil
+from yaml import load, dump
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 
 def main():
     ap = argparse.ArgumentParser()
@@ -104,7 +108,7 @@ def main():
                             config_text = re.sub(r'\${(.*)}', replace_env, stream.read())
                             name = os.path.splitext(config_file)[0]
                             try:
-                                    config = yaml.load(config_text)
+                                    config = load(config_text, Loader=Loader)
                             except Exception as e:
                                     print(config_text)
                                     print('Error with "{}" config file'.format(name))
@@ -130,9 +134,9 @@ def main():
             output_config.pop('composer_compositions', None)
 
             with open(output_file, 'w+') as stream:
-                    yaml.dump(output_config, stream, default_flow_style=False)
+                    dump(output_config, stream, default_flow_style=False, Dumper=Dumper)
             if verbose:
-                    print(yaml.dump(output_config, default_flow_style=False))
+                    print(dump(output_config, default_flow_style=False), Dumper=Dumper)
 
             print("Done!")
 

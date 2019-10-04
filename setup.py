@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='dompose',
-    version='0.0.2',
+    version='0.0.3',
     description='A docker-compose wrapper. Compose your docker-compose files.', 
     long_description=long_description, 
     long_description_content_type='text/markdown',
