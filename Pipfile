@@ -7,3 +7,7 @@ twine = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+build = 'bash ./scripts/build'
+upload = 'pipenv run twine upload dist/*'
